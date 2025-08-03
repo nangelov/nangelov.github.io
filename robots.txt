@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://nikolayangelov.online/sitemap.xml
+
+# Disallow any temporary or admin folders if needed
+Disallow: /temp/
+Disallow: /admin/

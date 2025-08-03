@@ -1,0 +1,100 @@
+[
+    {
+        "title": "AI Transformation Lead",
+        "company": "Wiser Technology",
+        "location": "Sofia, Bulgaria",
+        "content": [
+            "- Bridging strategy and execution to lead AI adoption and transformation.",
+            "- Designing and deploying LLM-powered systems, AI agents, and scalable architectures that deliver measurable business impact across cloud and enterprise environments.",
+            "- Driving AI adoption and transformation across the company, from strategy to execution.",
+            "- Mentoring and coaching talented engineers to grow their skills and become leaders in the field of AI."
+        ],
+        "date": "July, 2025 - Present",
+        "thumbnail": "/assets/images/experience/wisertech.webp",
+        "imageAlt": "Wiser Technology"
+    },
+    {
+        "title": "Senior Engineering Manager - Product Development",
+        "company": "StorPool",
+        "location": "Sofia, Bulgaria",
+        "content": [
+            "- Leading the Product Development department (3 engineering teams, ~12 engineers) of StorPool",
+            "- Drive workflow and processes improvements to support the company's growth in a resilient and scalable manner"
+        ],
+        "date": "November, 2024 - June, 2025",
+        "thumbnail": "/assets/images/experience/StorPool.webp",
+        "imageAlt": "StorPool"
+    },
+    {
+        "title": "Head of Engineering",
+        "company": "Runa.io",
+        "location": "Sofia, Bulgaria",
+        "content": [
+            "- Set up a new department in Bulgaria, overseeing the successful formation of two high-performing teams, totaling 15+ engineers working on API's first digital payout platform, API integrations with partners, and consumer experience.",
+            "- Leading operational support improvements through processes and automation, while being an active participant in OPS on-call duty.",
+            "- Assumed dual responsibilities of both Head of Engineering and Engineering Management roles, provided strategic leadership and operational oversight to ensure the department's alignment with company goals.",
+            "- Led aggressive hiring in a new location, collaborating with HR and leadership to attract top-tier talent, reorganize team structure and build a high-performing engineering team that consistently met quarterly goals.",
+            "- Fostered a culture of innovation, collaboration, and excellence, and ensured a positive and productive work environment conducive to professional growth and development.",
+            "- Worked closely with product management teams to set the strategy and vision for the department, and aligned engineering efforts with overall company objectives.",
+            "- Acted as a key liaison between the Bulgarian division and other company locations, facilitating seamless communication and collaboration to achieve common goals."
+        ],
+        "date": "June, 2023 - July, 2024",
+        "thumbnail": "/assets/images/experience/runa.webp",
+        "imageAlt": "Runa.io"
+    },
+    {
+        "title": "Engineering Manager",
+        "company": "OfficeRnD",
+        "location": "Sofia, Bulgaria",
+        "content": [
+            "- Led a cross-functional team of 10 engineers, including full-stack, front-end, and QA professionals, to deliver top-quality solutions for the company's core products.",
+            "- Participated in the leadership team, contributing to the company's roadmap strategy with a focus on technology and engineering.",
+            "- Collaborated with product managers, designers, and stakeholders to integrate engineering efforts into the product development lifecycle.",
+            "- Fostered a culture of innovation, collaboration, and continuous improvement, providing mentorship and professional development for team members.",
+            "- Shaped the technical direction of the core product, ensuring alignment with business goals and industry best practices.",
+            "- Implemented and optimized agile methodologies to enhance team efficiency and product delivery timelines."
+        ],
+        "date": "November, 2022 - May, 2023",
+        "thumbnail": "/assets/images/experience/OfficeRnD.webp",
+        "imageAlt": "OfficeRnD"
+    },
+    {
+        "title": "Robotics Engineering Team Leader / Senior Engineering Manager",
+        "company": "Ocado Technology",
+        "location": "Sofia, Bulgaria",
+        "content": [
+            "Robotics Software Team Lead at Ocado Technology Inc., Sofia (Aug 2017 - Dec 2019):",
+            "- Led cross-functional teams in developing robotics software for automated warehouses.",
+            "- Supported remote teams in the UK, ensuring effective communication and project success.",
+            "- Contributed to software development for robotic systems, improving team productivity.",
+            "- Implemented methodologies to streamline workflows and boost development efficiency.",
+            "- Promoted continuous learning by identifying skill gaps and organizing training programs.",
+            "",
+            "Senior Engineering Manager at Ocado Technology Inc., Sofia (Jan 2020 - Nov 2022):",
+            "- Govern overall aspects of the department, with the oversight of end-to-end solutions related to mobile robots.",
+            "- Led and mentored team leaders, managing up to 40 indirect reports across Bulgaria, Serbia, and England.",
+            "- Facilitated cross-functional collaboration to optimize product development.",
+            "- Drove innovation by exploring new technologies to enhance product performance.",
+            "- Acted as a liaison to foster communication between engineering and other units."            
+        ],
+        "date": "August, 2017 - November, 2022",
+        "thumbnail":  ["/assets/images/experience/Ocado.webp", "/assets/images/experience/Ocado2.webp", "/assets/images/experience/Ocado3.webp"],
+        "imageAlt": ["Ocado Robotic Warehouse", "Ocado Robotic Warehouse", "Ocado Robotic Warehouse"]
+    },
+    {
+        "title": "Software Engineer and Team Leader in Automotive Industry",
+        "company": "Johnson Controls/ Visteon",
+        "location": "Sofia, Bulgaria / Karlsruhe, Germany",
+        "content": [
+            "I started my career as a software engineer in the automotive industry, working on embedded and application software for vehicle cockpit electronics and battery management systems.",
+            "I worked on various projects for various OEMs including BMW, VW, Mercedes, Ford and others.",
+            "I spent half of the time in Sofia, Bulgaria and half of the time in Karlsruhe, Germany, working closely to customers and partners in Germany.",
+            "In 2016 I moved back to Bulgaria and started working as a team leader for the software development team in the same company.",
+            "My last project in automotive was a platform for advanced driving assistance systems (ADAS) and autonomous driving (AD) for Visteon."
+        ],
+        "date": "March, 2008 - August, 2017",
+        "thumbnail": "/assets/images/experience/Automotive.webp",
+        "imageAlt": "Automotive"
+    }
+
+]

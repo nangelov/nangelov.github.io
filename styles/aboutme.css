@@ -1,0 +1,97 @@
+.about-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title-section {
+    text-align: center;
+    text-align: middle;
+    margin-bottom: 2rem; /* Add space below the title */
+}
+
+.title-content {
+    display: inline-block;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.4)
+    );
+    padding: 0.25rem;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    text-align: center;
+}
+
+.profile-section {
+    display: flex;
+    /*width: 1400px;*/
+    gap: 3rem;
+    align-items: flex-start;
+    background: transparent;
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.profile-image {
+    width: 400px;
+    height: auto;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 5px;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.profile-image:hover {
+    transform: scale(1.1); /* Zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.profile-content {
+    flex: 1;
+    width: 900px;   
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.4)
+    );
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.profile-content:hover {
+    transform: scale(1.1); /* Zoom effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .profile-content {
+        max-width: 400px;
+    }
+
+    .profile-image {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (hover: none) {
+    .profile-image:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}

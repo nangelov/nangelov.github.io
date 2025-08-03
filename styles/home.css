@@ -1,0 +1,95 @@
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title-section {
+    text-align: center;
+    text-align: middle;
+    margin-bottom: 2rem; /* Add space below the title */
+}
+
+.title-content {
+    display: inline-block;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.4)
+    );
+    padding: 0.25rem;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    text-align: center;
+}
+
+.intro-section {
+    display: flex;
+    /*width: 1400px;*/
+    align-items: flex-start; /* Align items to the top */
+    gap: 2rem; /* Space between image and text */
+}
+
+.intro-image {
+    width: 400px; /* Adjust width as needed */
+    height: auto;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 5px;
+    transition: all 0.3s ease;
+}
+
+.intro-image:hover {
+    transform: scale(1.1); /* Zoom effect */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.intro-content {
+    flex: 1;
+    width: 800px; /* Match the image width */
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.4)
+    );
+    padding: 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.intro-content:hover {
+    transform: scale(1.1); /* Zoom effect */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .title-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .intro-section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .intro-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .intro-content {
+        max-width: 400px;
+    }
+}
+
+@media (hover: none) {
+    .intro-image:hover {
+        transform: none;
+        box-shadow: none;
+    }
+}

@@ -1,0 +1,82 @@
+[
+    {
+        "title": "AI Career Coach",
+        "summary": [
+            "A FastAPI and Gradio-based AI assistant that helps users with career development, powered by Mixtral-8x7B-Instruct and LangChain."
+        ],
+        "date": "2025",
+        "thumbnail": "/assets/images/projects/Ai-Career-Coach/ai-agent.webp",
+        "tech_stack": ["Python", "Hugging Face", "FastAPI", "LangChain"],
+        "url": "https://nangelov-ai-career-coach.hf.space/",
+        "mediaAlt": "AI Career Coach"
+    },
+    {
+        "title": " IBM Watson AI Emotion Detector",
+        "summary": [
+            "In this project, I developed a web application that utilizes IBM Watson's Natural Language Processing (NLP) services to detect emotions from textual input. The application analyzes text to identify nuanced emotions such as joy, sadness, anger, and more, extending beyond basic sentiment analysis.",
+            "This project was educational, coming with pre-prepared materials and structured guidance to facilitate learning the implementation of neural networks in real-world scenarios."
+        ],
+        "date": "2024",
+        "thumbnail": "/assets/images/projects/IBM Watson AI Emotion Detector/watson.jpg",
+        "tech_stack": ["Python 3", "Flask", "Pytorch", "IBM Watson NLP"],
+        "url": "https://github.com/nangelov/IBM-Watson_AI-Emotion-Detector",
+        "mediaAlt": "IBM Watson AI Emotion Detector"
+    },
+    {
+        "title": "Vehicle Detection Using Computer Vision and Machine Learning",
+        "summary": [
+            "In this project, I implemented a pipeline for vehicle detection using computer vision and machine learning techniques, inspired by Udacity's Self-Driving Car Engineer Nanodegree. The goal was to develop a robust system to detect vehicles in images and videos, which is a critical component for autonomous driving systems.",
+            "The project involved utilizing a histogram of oriented gradients (HOG) for feature extraction, spatial binning, and color histograms to characterize vehicles. These features were then fed into a linear support vector machine (SVM) classifier for vehicle detection. Sliding window search techniques were employed to scan the image and locate vehicles.",
+            "I enhanced the performance by integrating a heatmap-based filtering method to reduce false positives and improve the system's reliability. The pipeline was evaluated on Udacity-provided test videos, demonstrating accurate vehicle detection in dynamic road environments.",
+            "This project was educational, coming with pre-prepared materials and structured guidance to facilitate learning the implementation of neural networks in real-world scenarios."
+        ],
+        "date": "2016",
+        "thumbnail": "/assets/images/projects/Vehicle Detection/lane_and_vehicles_detection.mp4",
+        "tech_stack": ["Python 3", "OpenCV", "Scikit-learn", "Scikit-image", "NumPy", "Matplotlib", "MoviePy"],
+        "url": "https://github.com/nangelov/CarND-Vehicle-Detection-P5",
+        "mediaAlt": "Vehicle Detection Using Computer Vision and Machine Learning"
+    },    
+    {
+        "title": "Behavioral Cloning for Autonomous Driving",
+        "summary": [
+            "In 2016, as part of Udacity's Self-Driving Car Engineer Nanodegree, I undertook a project focused on behavioral cloning to enable autonomous driving. The objective was to develop a convolutional neural network (CNN) in Keras, capable of predicting steering angles from images, allowing a vehicle to navigate a track autonomously. Utilizing Udacity's simulator, I collected driving data and designed and implemented the CNN model, drawing inspiration from NVIDIA's end-to-end deep learning approach for self-driving cars.",
+            "By leveraging convolutional neural networks and behavioral cloning, I successfully trained a model capable of navigating a simulated vehicle through various driving scenarios, demonstrating my ability to apply deep learning techniques to autonomous vehicle control.",
+            "More information about Keras: https://en.wikipedia.org/wiki/Keras",
+            "This project was educational, coming with pre-prepared materials and structured guidance to facilitate learning the implementation of neural networks in real-world scenarios."
+        ],
+        "date": "2016",
+        "thumbnail": "/assets/images/projects/Behavioral Cloning for Autonomous Driving/Behavioral Cloning for Autonomous Driving.mp4",
+        "tech_stack": ["Python 3", "Keras", "NumPy", "Pandas", "OpenCV", "Matplotlib"],
+        "url": "https://github.com/nangelov/CarND-Behavioral-Cloning-P3/",
+        "mediaAlt": "Behavioral Cloning for Autonomous Driving"
+    },
+    {
+        "title": "Traffic Sign Recognition",
+        "summary": [
+            "I developed this project in 2016 as part of Udacity's Self-Driving Car Engineer Nanodegree.",
+            "The objective was to classify traffic signs using the German Traffic Sign Dataset. Following the provided guidelines, I implemented a convolutional neural network (CNN) based on the LeNet-5 architecture, originally designed for handwritten and machine-printed character recognition. Using the provided datasets, I successfully trained and tested the model.",
+            "More information about LeNet-5: https://medium.com/@siddheshb008/lenet-5-architecture-explained-3b559cb2d52b",
+            "This project was educational, coming with pre-prepared materials and structured guidance to facilitate learning the implementation of neural networks in real-world scenarios."
+        ],
+        "date": "2016",
+        "thumbnail": "/assets/images/projects/Traffic Signs Recognition/traffic-signs.jpg",
+        "tech_stack": ["Python 3", "TensorFlow", "NumPy", "Pandas", "Matplotlib"],
+        "url": "https://github.com/nangelov/CarND-Traffic-Sign-Classifier-Project",
+        "mediaAlt": "Traffic Signs Recognition"
+    }
+    ,
+    {
+        "title": "Finding Lane Lines on the Road",
+        "summary": [
+            "I developed this project in 2016 as part of Udacity's Self-Driving Car Engineer Nanodegree.",
+            "When we drive, we use our eyes to decide where to go. The lines on the road that show us where the lanes are act as our constant reference for where to steer the vehicle. Naturally, one of the first things we would like to do in developing a self-driving car is to automatically detect lane lines using an algorithm.",
+            "Using OpenCV libraries and some test images, I've manage to create a processing pipeline, which applied on videos from real car driving, are able to detect lines and highlight them.",
+            "This project was educational, coming with pre-prepared materials and structured guidance to facilitate learning the implementation of neural networks in real-world scenarios."
+        ],
+        "date": "2016",
+        "thumbnail": "/assets/images/projects/Finding Lane Lines on the Road/CarND-LaneLines-P1.mp4",
+        "tech_stack": ["Python 3", "TensorFlow", "NumPy", "OpenCV", "MoviePy"],
+        "url": "https://github.com/nangelov/CarND-LaneLines-P1",
+        "mediaAlt": "Finding Lane Lines on the Road"
+    }
+]
