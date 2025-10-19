@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Topology Game - Technical Leadership</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .credits {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .credits a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .credits a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* Scenario Selection */
+        .scenario-selection {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .scenario-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .scenario-button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+
+        .scenario-button:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .scenario-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .scenario-button.completed {
+            background: #2ecc71;
+        }
+
+        .scenario-button.completed:hover {
+            background: #27ae60;
+        }
+
+        /* Scenario Display */
+        .scenario-display {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .scenario-display.active {
+            display: block;
+        }
+
+        .scenario-display h2 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .scenario-display p {
+            color: #856404;
+            line-height: 1.6;
+        }
+
+        /* Game Area */
+        .game-area {
+            display: none;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .game-area.active {
+            display: grid;
+        }
+
+        /* Toolbox */
+        .toolbox {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .toolbox h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .tool-category {
+            margin-bottom: 20px;
+        }
+
+        .tool-category h4 {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .team-option, .person-option {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: grab;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .team-option:active, .person-option:active {
+            cursor: grabbing;
+        }
+
+        .team-option:hover, .person-option:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .team-platform { background: #3498db; color: white; }
+        .team-stream { background: #2ecc71; color: white; }
+        .team-subsystem { background: #e74c3c; color: white; }
+        .team-enabling { background: #f39c12; color: white; }
+
+        .person-option {
+            background: #ecf0f1;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+
+        /* Playground */
+        .playground {
+            background: #ffffff;
+            border: 3px dashed #ccc;
+            border-radius: 10px;
+            min-height: 600px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .playground.drag-over {
+            background: #e8f4f8;
+            border-color: #667eea;
+        }
+
+        .dropped-team {
+            position: absolute;
+            min-width: 180px;
+            min-height: 120px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: move;
+        }
+
+        .dropped-team h4 {
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            border-bottom: 2px solid rgba(255,255,255,0.5);
+            padding-bottom: 8px;
+        }
+
+        .team-members {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .team-member {
+            background: rgba(255,255,255,0.9);
+            padding: 6px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-member {
+            cursor: pointer;
+            color: #e74c3c;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+
+        .remove-team {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .remove-team:hover {
+            background: rgba(231, 76, 60, 0.8);
+        }
+
+        /* Submit Button */
+        .submit-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submit-button {
+            padding: 15px 50px;
+            font-size: 1.2em;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-button:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .reset-button {
+            padding: 15px 50px;
+            font-size: 1.2em;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 15px;
+        }
+
+        .reset-button:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        /* Modal/Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .modal-content.success h2 {
+            color: #2ecc71;
+        }
+
+        .modal-content.warning h2 {
+            color: #f39c12;
+        }
+
+        .modal-content.failure h2 {
+            color: #e74c3c;
+        }
+
+        .modal-content p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+
+        .modal-close:hover {
+            background: #764ba2;
+        }
+
+        .modal-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .modal-option {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .modal-option.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-option.primary:hover {
+            background: #764ba2;
+        }
+
+        .modal-option.secondary {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .modal-option.secondary:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Team Topology Challenge</h1>
+        <p class="subtitle">Adaptability in a Constrained World</p>
+        <p class="credits">Based on Team Topologies concepts by <a href="https://teamtopologies.com/" target="_blank" rel="noopener noreferrer">Matthew Skelton & Manuel Pais</a></p>
+
+        <!-- Scenario Selection -->
+        <div class="scenario-selection">
+            <h3>Choose your scenario to begin!</h3>
+            <div class="scenario-buttons">
+                <button class="scenario-button" id="scenario1Button" data-scenario="1">
+                    Scenario 1: Monolith to Microservices
+                </button>
+                <button class="scenario-button" id="scenario2Button" data-scenario="2" disabled>
+                    Scenario 2: FinTech Payment Engine
+                </button>
+                <button class="scenario-button" id="scenario3Button" data-scenario="3" disabled>
+                    Scenario 3: Solar Plant Revenue Platform
+                </button>
+            </div>
+        </div>
+
+        <!-- Scenario Display -->
+        <div class="scenario-display" id="scenarioDisplay">
+            <h2 id="scenarioTitle"></h2>
+            <p id="scenarioDescription"></p>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area" id="gameArea">
+            <!-- Toolbox -->
+            <div class="toolbox">
+                <h3>🛠️ Toolbox</h3>
+
+                <div class="tool-category">
+                    <h4>Team Types</h4>
+                    <div class="team-option team-platform" draggable="true" data-team="platform">
+                        Platform Team
+                    </div>
+                    <div class="team-option team-stream" draggable="true" data-team="stream">
+                        Stream-Aligned Team
+                    </div>
+                    <div class="team-option team-subsystem" draggable="true" data-team="subsystem">
+                        Complicated Subsystem
+                    </div>
+                    <div class="team-option team-enabling" draggable="true" data-team="enabling">
+                        Enabling Team
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <h4>Personnel</h4>
+                    <div class="person-option" draggable="true" data-person="Junior Software Engineer">
+                        Junior Software Engineer
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Software Engineer">
+                        Software Engineer
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Senior Software Engineer">
+                        Senior Software Engineer
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Team Lead">
+                        Team Lead
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Junior DevOps">
+                        Junior DevOps
+                    </div>
+                    <div class="person-option" draggable="true" data-person="DevOps">
+                        DevOps
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Senior DevOps">
+                        Senior DevOps
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Junior Data Scientist">
+                        Junior Data Scientist
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Data Scientist">
+                        Data Scientist
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Senior Data Scientist">
+                        Senior Data Scientist
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Junior QA">
+                        Junior QA
+                    </div>
+                    <div class="person-option" draggable="true" data-person="QA">
+                        QA
+                    </div>
+                    <div class="person-option" draggable="true" data-person="Senior QA">
+                        Senior QA
+                    </div>
+                </div>
+            </div>
+
+            <!-- Playground -->
+            <div>
+                <div class="playground" id="playground">
+                    <p style="text-align: center; color: #999; margin-top: 250px;">
+                        Drag team types here and add personnel to build your team structure
+                    </p>
+                </div>
+                <div class="submit-section">
+                    <button class="submit-button" id="submitButton">✓ Submit Solution</button>
+                    <button class="reset-button" id="resetButton">↻ Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent">
+            <h2 id="modalTitle"></h2>
+            <p id="modalMessage"></p>
+            <div class="modal-options" id="modalOptions" style="display: none;">
+                <button class="modal-option primary" id="continueButton">Continue to Next Scenario</button>
+                <button class="modal-option secondary" id="fixButton">Let Me Fix</button>
+            </div>
+            <button class="modal-close" id="modalClose">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Scenarios
+        const scenarios = [
+            {
+                id: 1,
+                title: "Scenario 1: Monolith to Microservices",
+                description: "The company is about to break down the system from one big monolith to dedicated micro services. It is an HR system that is customizable according to customer needs. While it has a core part, multiple functional areas can be enabled or disabled and have completely independent features from other regions."
+            },
+            {
+                id: 2,
+                title: "Scenario 2: FinTech Payment Engine",
+                description: "This is a fintech company. The product acts as a payment engine or middle layer between different payment providers and customers (mainly medium-sized businesses and online stores). The system consists of many small sub-systems split into 3 main domains - treasury, integrations and customer experience. The whole system is serverless. The system requires high availability and durability."
+            },
+            {
+                id: 3,
+                title: "Scenario 3: Solar Plant Revenue Platform",
+                description: "The product is a platform for maximum revenue from solar plants. It integrates with multiple sources of weather, forecast of energy usage and communication with battery systems which are placed to the plants. The data is fused and used for prediction and control from ML algorithms built inhouse. System required high availability and durability."
+            }
+        ];
+
+        // Validation Rules - EASILY CONFIGURABLE
+        const validationRules = {
+            1: { // Scenario 1: Monolith to Microservices
+                correct: {
+                    minTeams: { platform: 1, stream: 2 },
+                    requiredPersonnel: {
+                        'Team Lead': 2, // At least 2 team leads for the stream teams
+                        'Senior Software Engineer': 1, // For platform team
+                        'DevOps': 1 // For infrastructure management
+                    },
+                    message: "Excellent! Breaking down a monolith requires platform teams for shared services, multiple stream-aligned teams for independent features, with proper leadership and DevOps support."
+                },
+                warning: {
+                    condition: (teams, personnel) => {
+                        const hasTeamLeads = personnel.filter(p => p.includes('Team Lead')).length >= 1;
+                        const hasDevOps = personnel.some(p => p.includes('DevOps'));
+                        return teams.stream >= 1 && teams.platform === 0 && hasTeamLeads && hasDevOps;
+                    },
+                    message: "Good start with stream-aligned teams and some leadership, but consider a platform team to support common infrastructure and reduce duplication."
+                },
+                failure: {
+                    message: "This structure may not work well. For monolith decomposition, you typically need: platform team(s) for shared services, multiple stream-aligned teams for independent business capabilities, team leads for coordination, and DevOps for infrastructure."
+                }
+            },
+            2: { // Scenario 2: FinTech Payment Engine
+                correct: {
+                    minTeams: { stream: 3, platform: 1 },
+                    requiredPersonnel: {
+                        'Team Lead': 3, // One lead per domain team
+                        'Senior Software Engineer': 2, // For complex fintech logic
+                        'Senior DevOps': 1, // For high availability requirements
+                        'DevOps': 1 // Additional DevOps support
+                    },
+                    message: "Perfect! A serverless fintech system with 3 domains needs stream-aligned teams per domain, platform team for serverless infrastructure, strong leadership, and robust DevOps for high availability."
+                },
+                warning: {
+                    condition: (teams, personnel) => {
+                        const hasTeamLeads = personnel.filter(p => p.includes('Team Lead')).length >= 2;
+                        const hasDevOps = personnel.some(p => p.includes('DevOps'));
+                        return teams.stream >= 2 && (teams.platform >= 1 || teams.subsystem >= 1) && hasTeamLeads && hasDevOps;
+                    },
+                    message: "Decent approach with some leadership and DevOps, but ensure you have dedicated teams for each of the 3 main domains (treasury, integrations, customer experience) plus platform support for serverless infrastructure."
+                },
+                failure: {
+                    message: "High availability serverless fintech requires: 3+ stream-aligned teams (one per domain), platform team for infrastructure, team leads for each domain, and strong DevOps presence. Consider the criticality of uptime."
+                }
+            },
+            3: { // Scenario 3: Solar Plant Revenue Platform
+                correct: {
+                    minTeams: { stream: 1, subsystem: 1, platform: 1 },
+                    requiredPersonnel: {
+                        'Team Lead': 1, // For stream team
+                        'Senior Data Scientist': 1, // For ML algorithms
+                        'Data Scientist': 1, // Additional data science support
+                        'Senior DevOps': 1, // For high availability
+                        'Senior Software Engineer': 1 // For platform development
+                    },
+                    message: "Excellent! ML-heavy platform needs: stream-aligned team for product, complicated subsystem team for ML algorithms, platform team for infrastructure, and experienced data scientists with strong DevOps support."
+                },
+                warning: {
+                    condition: (teams, personnel) => {
+                        const hasDataScience = personnel.some(p => p.includes('Data Scientist'));
+                        const hasDevOps = personnel.some(p => p.includes('DevOps'));
+                        return (teams.stream >= 1 && hasDataScience && hasDevOps) || (teams.subsystem >= 1 && hasDataScience && hasDevOps);
+                    },
+                    message: "Good inclusion of data scientists and DevOps, but consider: stream-aligned team for the product, complicated subsystem team specifically for ML algorithms, platform team for reliability, and senior-level personnel for this complex system."
+                },
+                failure: {
+                    message: "ML platform with high availability needs: stream-aligned team for product development, complicated subsystem team for in-house ML algorithms, platform team for infrastructure, senior data scientists, and experienced DevOps for reliability."
+                }
+            }
+        };
+
+        // Game State
+        let currentScenario = null;
+        let teams = [];
+        let teamIdCounter = 0;
+        let completedScenarios = new Set(); // Track completed scenarios
+
+        // DOM Elements
+        const scenario1Button = document.getElementById('scenario1Button');
+        const scenario2Button = document.getElementById('scenario2Button');
+        const scenario3Button = document.getElementById('scenario3Button');
+        const scenarioDisplay = document.getElementById('scenarioDisplay');
+        const scenarioTitle = document.getElementById('scenarioTitle');
+        const scenarioDescription = document.getElementById('scenarioDescription');
+        const gameArea = document.getElementById('gameArea');
+        const playground = document.getElementById('playground');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modalContent');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalClose = document.getElementById('modalClose');
+        const modalOptions = document.getElementById('modalOptions');
+        const continueButton = document.getElementById('continueButton');
+        const fixButton = document.getElementById('fixButton');
+        const submitButton = document.getElementById('submitButton');
+        const resetButton = document.getElementById('resetButton');
+
+        // Scenario Selection
+        function selectScenario(scenarioId) {
+            currentScenario = scenarios.find(s => s.id === scenarioId);
+            scenarioTitle.textContent = currentScenario.title;
+            scenarioDescription.textContent = currentScenario.description;
+            scenarioDisplay.classList.add('active');
+            gameArea.classList.add('active');
+            
+            // Reset teams for new scenario
+            teams = [];
+            playground.innerHTML = '<p style="text-align: center; color: #999; margin-top: 250px;">Drag team types here and add personnel to build your team structure</p>';
+        }
+
+        scenario1Button.addEventListener('click', () => selectScenario(1));
+        scenario2Button.addEventListener('click', () => selectScenario(2));
+        scenario3Button.addEventListener('click', () => selectScenario(3));
+
+        // Unlock next scenario
+        function unlockNextScenario() {
+            if (completedScenarios.has(1) && !completedScenarios.has(2)) {
+                scenario2Button.disabled = false;
+                scenario2Button.textContent = 'Scenario 2: FinTech Payment Engine (Unlocked!)';
+            }
+            if (completedScenarios.has(2) && !completedScenarios.has(3)) {
+                scenario3Button.disabled = false;
+                scenario3Button.textContent = 'Scenario 3: Solar Plant Revenue Platform (Unlocked!)';
+            }
+        }
+
+        // Drag and Drop - Teams
+        document.querySelectorAll('.team-option').forEach(option => {
+            option.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('type', 'team');
+                e.dataTransfer.setData('teamType', e.target.dataset.team);
+            });
+        });
+
+        // Drag and Drop - Personnel
+        document.querySelectorAll('.person-option').forEach(option => {
+            option.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('type', 'person');
+                e.dataTransfer.setData('personName', e.target.dataset.person);
+            });
+        });
+
+        // Playground Drop Handlers
+        playground.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            playground.classList.add('drag-over');
+        });
+
+        playground.addEventListener('dragleave', () => {
+            playground.classList.remove('drag-over');
+        });
+
+        playground.addEventListener('drop', (e) => {
+            e.preventDefault();
+            playground.classList.remove('drag-over');
+
+            const type = e.dataTransfer.getData('type');
+            const draggedTeam = e.dataTransfer.getData('draggedTeam');
+
+            if (type === 'team') {
+                // Creating a new team from toolbox
+                const teamType = e.dataTransfer.getData('teamType');
+                const rect = playground.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                createTeam(teamType, x, y);
+            } else if (type === 'existingTeam' && draggedTeam) {
+                // Moving an existing team
+                const teamId = parseInt(draggedTeam);
+                const rect = playground.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                moveTeam(teamId, x, y);
+            }
+        });
+
+        // Create Team
+        function createTeam(teamType, x, y) {
+            const teamId = teamIdCounter++;
+            const teamElement = document.createElement('div');
+            teamElement.className = `dropped-team team-${teamType}`;
+            
+            // Ensure the team rectangle stays within the playground bounds
+            const teamWidth = 180;
+            const teamHeight = 120;
+            const playgroundRect = playground.getBoundingClientRect();
+            const playgroundWidth = playground.offsetWidth;
+            const playgroundHeight = playground.offsetHeight;
+            
+            // Calculate position ensuring the team stays within bounds
+            let left = x - teamWidth / 2;
+            let top = y - teamHeight / 2;
+            
+            // Constrain to playground bounds
+            left = Math.max(0, Math.min(left, playgroundWidth - teamWidth));
+            top = Math.max(0, Math.min(top, playgroundHeight - teamHeight));
+            
+            teamElement.style.left = `${left}px`;
+            teamElement.style.top = `${top}px`;
+            teamElement.dataset.teamId = teamId;
+            teamElement.draggable = true;
+
+            const teamNames = {
+                platform: 'Platform Team',
+                stream: 'Stream-Aligned Team',
+                subsystem: 'Complicated Subsystem',
+                enabling: 'Enabling Team'
+            };
+
+            teamElement.innerHTML = `
+                <button class="remove-team" onclick="removeTeam(${teamId})">×</button>
+                <h4>${teamNames[teamType]}</h4>
+                <div class="team-members" data-team-id="${teamId}"></div>
+            `;
+
+            // Make team draggable
+            teamElement.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('draggedTeam', teamId);
+                e.dataTransfer.setData('type', 'existingTeam');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            teamElement.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const type = e.dataTransfer.getData('type');
+                if (type === 'person') {
+                    teamElement.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.8)';
+                }
+            });
+
+            teamElement.addEventListener('dragleave', (e) => {
+                e.stopPropagation();
+                teamElement.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+            });
+
+            teamElement.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                teamElement.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+
+                const type = e.dataTransfer.getData('type');
+                if (type === 'person') {
+                    const personName = e.dataTransfer.getData('personName');
+                    addPersonToTeam(teamId, personName);
+                }
+            });
+
+            playground.appendChild(teamElement);
+
+            teams.push({
+                id: teamId,
+                type: teamType,
+                members: []
+            });
+        }
+
+        // Move Team
+        function moveTeam(teamId, x, y) {
+            const teamElement = document.querySelector(`[data-team-id="${teamId}"]`).closest('.dropped-team');
+            if (teamElement) {
+                // Ensure the team rectangle stays within the playground bounds
+                const teamWidth = 180;
+                const teamHeight = 120;
+                const playgroundWidth = playground.offsetWidth;
+                const playgroundHeight = playground.offsetHeight;
+                
+                // Calculate position ensuring the team stays within bounds
+                let left = x - teamWidth / 2;
+                let top = y - teamHeight / 2;
+                
+                // Constrain to playground bounds
+                left = Math.max(0, Math.min(left, playgroundWidth - teamWidth));
+                top = Math.max(0, Math.min(top, playgroundHeight - teamHeight));
+                
+                teamElement.style.left = `${left}px`;
+                teamElement.style.top = `${top}px`;
+            }
+        }
+
+        // Add Person to Team
+        function addPersonToTeam(teamId, personName) {
+            const team = teams.find(t => t.id === teamId);
+            if (team) {
+                team.members.push(personName);
+
+                const membersContainer = document.querySelector(`[data-team-id="${teamId}"]`);
+                const memberElement = document.createElement('div');
+                memberElement.className = 'team-member';
+                memberElement.innerHTML = `
+                    <span>${personName}</span>
+                    <span class="remove-member" onclick="removeMember(${teamId}, '${personName}')">×</span>
+                `;
+                membersContainer.appendChild(memberElement);
+            }
+        }
+
+        // Remove Team
+        function removeTeam(teamId) {
+            teams = teams.filter(t => t.id !== teamId);
+            document.querySelector(`[data-team-id="${teamId}"]`).closest('.dropped-team').remove();
+        }
+
+        // Remove Member
+        function removeMember(teamId, personName) {
+            const team = teams.find(t => t.id === teamId);
+            if (team) {
+                const index = team.members.indexOf(personName);
+                if (index > -1) {
+                    team.members.splice(index, 1);
+                }
+
+                const membersContainer = document.querySelector(`[data-team-id="${teamId}"]`);
+                const memberElements = membersContainer.querySelectorAll('.team-member');
+                memberElements.forEach(el => {
+                    if (el.textContent.includes(personName)) {
+                        el.remove();
+                    }
+                });
+            }
+        }
+
+        // Submit Solution
+        submitButton.addEventListener('click', () => {
+            if (!currentScenario) {
+                showModal('warning', 'No Scenario', 'Please spin the wheel first to get a scenario!');
+                return;
+            }
+
+            if (teams.length === 0) {
+                showModal('warning', 'No Teams', 'Please add at least one team to the playground!');
+                return;
+            }
+
+            validateSolution();
+        });
+
+        // Validate Solution
+        function validateSolution() {
+            const scenarioId = currentScenario.id;
+            const rules = validationRules[scenarioId];
+
+            // Count team types
+            const teamCounts = {
+                platform: 0,
+                stream: 0,
+                subsystem: 0,
+                enabling: 0
+            };
+
+            const allPersonnel = [];
+
+            teams.forEach(team => {
+                teamCounts[team.type]++;
+                allPersonnel.push(...team.members);
+            });
+
+            // Helper function to check personnel requirements
+            function checkPersonnelRequirements(requiredPersonnel) {
+                if (!requiredPersonnel) return true;
+                
+                for (let role in requiredPersonnel) {
+                    const requiredCount = requiredPersonnel[role];
+                    const actualCount = allPersonnel.filter(p => p === role).length;
+                    if (actualCount < requiredCount) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Check correct answer
+            if (rules.correct.minTeams) {
+                let teamsCorrect = true;
+                for (let teamType in rules.correct.minTeams) {
+                    if (teamCounts[teamType] < rules.correct.minTeams[teamType]) {
+                        teamsCorrect = false;
+                        break;
+                    }
+                }
+
+                if (teamsCorrect) {
+                    // Check personnel requirements
+                    const personnelCorrect = checkPersonnelRequirements(rules.correct.requiredPersonnel);
+                    
+                    if (personnelCorrect) {
+                        // Mark scenario as completed and unlock next
+                        completedScenarios.add(currentScenario.id);
+                        markScenarioCompleted(currentScenario.id);
+                        unlockNextScenario();
+                        showModal('success', '🎉 Excellent Solution!', rules.correct.message);
+                        return;
+                    } else {
+                        // Teams are correct but personnel is missing
+                        const missingRoles = [];
+                        for (let role in rules.correct.requiredPersonnel) {
+                            const requiredCount = rules.correct.requiredPersonnel[role];
+                            const actualCount = allPersonnel.filter(p => p === role).length;
+                            if (actualCount < requiredCount) {
+                                missingRoles.push(`${role} (need ${requiredCount}, have ${actualCount})`);
+                            }
+                        }
+                        showModalWithOptions('warning', '⚠️ Good Team Structure, Missing Personnel', 
+                            `Your team structure is correct, but you're missing some key personnel: ${missingRoles.join(', ')}. ${rules.correct.message}`);
+                        return;
+                    }
+                }
+            }
+
+            // Check warning conditions
+            if (rules.warning.condition && rules.warning.condition(teamCounts, allPersonnel)) {
+                showModalWithOptions('warning', '⚠️ Acceptable Solution', rules.warning.message);
+                return;
+            }
+
+            // Otherwise, failure
+            showModal('failure', '❌ Needs Improvement', rules.failure.message);
+        }
+
+        // Mark scenario as completed
+        function markScenarioCompleted(scenarioId) {
+            const button = document.getElementById(`scenario${scenarioId}Button`);
+            if (button) {
+                button.classList.add('completed');
+                button.textContent = `Scenario ${scenarioId}: ✓ Completed`;
+            }
+        }
+
+        // Show Modal with Options (for warnings)
+        function showModalWithOptions(type, title, message) {
+            modalContent.className = `modal-content ${type}`;
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalOptions.style.display = 'flex';
+            modalClose.style.display = 'none';
+            modal.classList.add('active');
+        }
+
+        // Show Modal (for success/failure)
+        function showModal(type, title, message) {
+            modalContent.className = `modal-content ${type}`;
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modalOptions.style.display = 'none';
+            modalClose.style.display = 'block';
+            modal.classList.add('active');
+        }
+
+        // Close Modal
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Modal Options
+        continueButton.addEventListener('click', () => {
+            modal.classList.remove('active');
+            // Mark scenario as completed and unlock next
+            completedScenarios.add(currentScenario.id);
+            markScenarioCompleted(currentScenario.id);
+            unlockNextScenario();
+        });
+
+        fixButton.addEventListener('click', () => {
+            modal.classList.remove('active');
+            // Keep current scenario active for fixing
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Reset Game
+        resetButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset? This will clear all teams.')) {
+                teams = [];
+                playground.innerHTML = '<p style="text-align: center; color: #999; margin-top: 250px;">Drag team types here and add personnel to build your team structure</p>';
+            }
+        });
+    </script>
+</body>
+</html>
